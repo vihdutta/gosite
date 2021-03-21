@@ -38,10 +38,6 @@ p {
 	margin: 10px 0;
 }
 
-img {
-	width: 100%;
-}
-
 /* Navbar */
 
 .navbar {
@@ -70,7 +66,7 @@ img {
 
 /* Showcase */
 .showcase {
-	height: 400px;
+	height: 300px;
 	background-color: var(--secondary-color);
 	color: white;
 	position: relative;
@@ -86,6 +82,23 @@ img {
 
 .showcase a {
 	color: var(--tertiary-color);
+}
+
+/* content */
+
+.content {
+	height: 1000px;
+	background-color: var(--tertiary-color);
+	color: white;
+	position: relative;
+}
+
+.content h1{
+	font-size: 40px;
+}
+
+.content a {
+	color: white;
 }
 
 /* Utilities */
@@ -107,4 +120,9 @@ img {
 .grid {
 	display: grid;
 	grid-template-columns: 300px;
+}
+
+.gridlarge {
+	display: grid;
+	grid-template-columns: 500;
 }
