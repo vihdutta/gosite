@@ -25,6 +25,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func projects(w http.ResponseWriter, r *http.Request) {
+
 	templates := template.Must(template.ParseFiles("templates/projects.html"))
 	fmt.Println("projects")
 	if err := templates.ExecuteTemplate(w, "projects.html", nil); err != nil {
