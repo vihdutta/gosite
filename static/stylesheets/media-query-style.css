@@ -1,0 +1,34 @@
+/* Tablets and Under*/
+@media(max-width: 768px) {
+    .grid, 
+    .showcase .grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+    }
+    
+    .showcase {
+        height: auto;
+    }
+
+    .showcase-text {
+        text-align: center;
+        margin: 40px;
+    }
+
+}
+/* Mobile */
+
+@media(max-width: 500px) {
+    .navbar {
+        height: 110px;
+    }
+
+    .navbar .flex {
+        flex-direction: column;
+    }
+
+    .navbar ul {
+        padding: 10px;
+        background-color: rbga(0,0,0,0.1);
+    }
+}

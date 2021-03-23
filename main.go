@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+
+	quote "github.com/vihdutta/gowebsite/modules"
 )
 
 func main() {
@@ -25,10 +27,10 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func projects(w http.ResponseWriter, r *http.Request) {
-
+	quote := quote.QuoteGen()
 	templates := template.Must(template.ParseFiles("templates/projects.html"))
 	fmt.Println("projects")
-	if err := templates.ExecuteTemplate(w, "projects.html", nil); err != nil {
+	if err := templates.ExecuteTemplate(w, "projects.html", quote); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }

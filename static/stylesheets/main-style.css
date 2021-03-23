@@ -98,7 +98,7 @@ p {
 
 /* content */
 .content {
-	height: 500px;
+	height: 700px;
 	background-color: var(--tertiary-color);
 	color: white;
 	position: relative;
@@ -183,4 +183,14 @@ p {
 	align-items: center;
 	justify-items: center;
 	grid-template-columns: repeat(3, 1fr);
+}
+
+.quote {
+	font-size: 27.5px;
+	font-weight: bold;
+}
+
+.quotetext {
+	padding-top: 150px;
+	text-align: center;
 }
