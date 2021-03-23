@@ -1,18 +1,36 @@
 /* Tablets and Under*/
 @media(max-width: 768px) {
+    .container {
+        text-align: center;
+    }
+
+    .floatl {
+        margin-right: 0px;
+    }
+
     .grid, 
     .showcase .grid {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr;
     }
-    
     .showcase {
         height: auto;
+        padding-bottom: 50px;
     }
 
     .showcase-text {
         text-align: center;
         margin: 40px;
+    }
+
+    .content {
+        height: auto;
+        padding-bottom: 30%;
+    }
+
+    .floatl {
+        float: none;
+        margin-right: none;
     }
 
 }
