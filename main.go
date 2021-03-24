@@ -10,7 +10,9 @@ import (
 )
 
 func main() {
-	os.Setenv("PORT", "6969")
+	/*
+		os.Setenv("PORT", "6969")
+	*/
 	port := os.Getenv("PORT")
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
@@ -18,7 +20,7 @@ func main() {
 	http.HandleFunc("/projects", projects)
 	http.HandleFunc("/statistics", statistics)
 	fmt.Println("Listening on :" + port)
-	fmt.Println(http.ListenAndServe(":"+port, nil))
+	http.ListenAndServe(":"+port, nil)
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
