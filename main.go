@@ -4,17 +4,21 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"os"
 
 	quote "github.com/vihdutta/gowebsite/modules"
 )
 
 func main() {
+	os.Setenv("PORT", "6969")
+	port := os.Getenv("PORT")
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	http.HandleFunc("/", index)
 	http.HandleFunc("/projects", projects)
 	http.HandleFunc("/statistics", statistics)
-	fmt.Println(http.ListenAndServe(":6969", nil))
+	fmt.Println("Listening on :" + port)
+	fmt.Println(http.ListenAndServe(":"+port, nil))
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
