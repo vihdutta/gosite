@@ -21,12 +21,12 @@ func main() {
 */
 func QuoteGen() string {
 	rand.Seed(time.Now().Unix())
+
 	jsonFile, _ := os.Open("quotes.json")
 	bodyBytes, _ := ioutil.ReadAll(jsonFile)
 
 	var quotes []RandQuote
 	json.Unmarshal(bodyBytes, &quotes)
-
 	return ParseQuotes(quotes)
 }
 
