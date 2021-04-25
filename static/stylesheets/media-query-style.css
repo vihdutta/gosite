@@ -4,10 +4,6 @@
         text-align: center;
     }
 
-    .floatl {
-        margin-right: 0px;
-    }
-
     .flex {
         padding: 0 10px;
     }
@@ -16,7 +12,6 @@
     .showcase .grid {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr;
-        padding: 10px;
     }
 
     .showcase {
@@ -44,16 +39,12 @@
     }
 
     .footer {
-        padding: 2.5% 0;
+        padding: 5% 0;
     }
 
     .footer li {
-        margin-bottom: 10px;
         display: inline;
         padding: 10px
-    }
-    .footer div {
-        margin: 10px;
     }
 
     .logo {
@@ -64,10 +55,13 @@
         margin: 0px;
     }
 
-    p {
-        padding: 10px 0;
+    ul {
+        padding-top: 10px;
     }
 
+    div.social {
+        padding-top: 10px;
+    }
 }
 /* Mobile */
 
