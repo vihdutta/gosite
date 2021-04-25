@@ -11,7 +11,7 @@ import (
 
 func main() {
 	//Use this to test. REMOVE/COMMENT before pushing to Github or Heroku won't work.
-	os.Setenv("PORT", "6969")
+	//os.Setenv("PORT", "6969")
 
 	port := os.Getenv("PORT")
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))

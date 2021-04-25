@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"math/rand"
-	"net/http"
+	"os"
 	"time"
 )
 
@@ -21,18 +21,8 @@ func main() {
 */
 func QuoteGen() string {
 	rand.Seed(time.Now().Unix())
-	req, err := http.Get("https://type.fit/api/quotes")
-
-	if err != nil {
-		fmt.Print(err.Error())
-	}
-
-	defer req.Body.Close()
-	bodyBytes, err := ioutil.ReadAll(req.Body)
-
-	if err != nil {
-		fmt.Print(err.Error())
-	}
+	jsonFile, _ := os.Open("quotes.json")
+	bodyBytes, _ := ioutil.ReadAll(jsonFile)
 
 	var quotes []RandQuote
 	json.Unmarshal(bodyBytes, &quotes)
