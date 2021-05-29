@@ -129,8 +129,8 @@ func webapps(w http.ResponseWriter, r *http.Request) {
 
 	http.ServeContent(w, r, dir+"/"+"analysis.txt", time.Now(), bytes.NewReader(downloadBytes))
 
-	file.Close()
-	osFile.Close()
-	defer os.Remove("analysis.txt")
-	defer os.Remove(osFile.Name())
+	//file.Close()
+	//osFile.Close()
+	//defer os.Remove("analysis.txt")
+	//defer os.Remove(osFile.Name())
 }
