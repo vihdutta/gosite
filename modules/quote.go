@@ -1,8 +1,7 @@
-package quote
+package modules
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"os"
@@ -19,7 +18,7 @@ func main() {
 	fmt.Println(QuoteGen())
 }
 */
-func QuoteGen() string {
+func QuoteGen() RandQuote {
 	rand.Seed(time.Now().Unix())
 
 	jsonFile, _ := os.Open("quotes.json")
@@ -27,9 +26,15 @@ func QuoteGen() string {
 
 	var quotes []RandQuote
 	json.Unmarshal(bodyBytes, &quotes)
-	return ParseQuotes(quotes)
+	quote := quotes[rand.Intn(len(quotes))]
+
+	if quote.Author == "" {
+		quote.Author = "Anonymous"
+	}
+	return quote
 }
 
+/*
 func ParseQuotes(quotes []RandQuote) string {
 	quote := quotes[rand.Intn(len(quotes))]
 
@@ -47,3 +52,4 @@ func ParseQuotes(quotes []RandQuote) string {
 	}
 	return fquote
 }
+*/

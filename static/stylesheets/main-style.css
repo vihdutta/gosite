@@ -102,39 +102,26 @@ p {
 	transform: skewY(-3deg);
 }
 
-/* about */
-.about {
-	height: 400px;
+/* topics */
+.topics {
+	padding: 50px 0 50px;
+	background-color: var(--fourth-color);
+}
+
+/* topic */
+.topic {
+	height: 350px;
 	background-color: var(--fourth-color);
 	color: var(--sixth-color);
 	position: relative;
 }
 
-.about h1 {
+.topic h1 {
 	text-align: center;
 	font-size: 50px;
 }
 
-.about a {
-	color: white;
-	text-decoration: underline;
-	text-decoration-thickness: 5%;
-}
-
-/* website */
-.website {
-	height: 400px;
-	background-color: var(--fourth-color);
-	color: var(--sixth-color);
-	position: relative;
-}
-
-.website h1 {
-	text-align: center;
-	font-size: 50px;
-}
-
-.website a {
+.topic a {
 	color: white;
 	text-decoration: underline;
 	text-decoration-thickness: 5%;

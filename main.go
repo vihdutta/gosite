@@ -1,15 +1,23 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"html/template"
+	"io/ioutil"
 	"net/http"
 	"os"
+	"os/exec"
+	"strconv"
+	"time"
 
-	quote "github.com/vihdutta/gowebsite/modules"
+	modules "github.com/vihdutta/gowebsite/modules"
 )
 
+type M map[string]interface{}
+
 func main() {
+	modules.ProjectsGen()
 	//Use this to test. REMOVE/COMMENT before pushing to Github or Heroku won't work.
 	//os.Setenv("PORT", "6969")
 
@@ -19,6 +27,9 @@ func main() {
 	http.HandleFunc("/", index)
 	http.HandleFunc("/projects", projects)
 	http.HandleFunc("/statistics", statistics)
+	http.HandleFunc("/webapps", webapps)
+	http.Handle("/analysis.txt", http.FileServer(http.Dir("./")))
+
 	fmt.Println("Listening on :" + port)
 	http.ListenAndServe(":"+port, nil)
 }
@@ -33,10 +44,11 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func projects(w http.ResponseWriter, r *http.Request) {
-	quote := quote.QuoteGen()
+	quote := modules.QuoteGen()
+	/*projects := modules.Projects()*/
 	templates := template.Must(template.ParseFiles("templates/projects.html"))
 	fmt.Println("projects")
-	if err := templates.ExecuteTemplate(w, "projects.html", quote); err != nil {
+	if err := templates.ExecuteTemplate(w, "projects.html", M{"quote": quote, "projects": projects}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
@@ -48,4 +60,73 @@ func statistics(w http.ResponseWriter, r *http.Request) {
 	if err := templates.ExecuteTemplate(w, "statistics.html", nil); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+func webapps(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == "GET" {
+		templates := template.Must(template.ParseFiles("templates/webapps.html"))
+		if err := templates.ExecuteTemplate(w, "webapps.html", nil); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		return
+	}
+	fmt.Println("webapps")
+
+	r.ParseMultipartForm(10)
+	// func (r *Request) FormFile(key string) (multipart.File, *multipart.FileHeader, error)
+	file, fileHeader, err := r.FormFile("myFile")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Printf("fileHeader.Filename: %v\n", fileHeader.Filename)
+	fmt.Printf("fileHeader.Size: %v\n", fileHeader.Size)
+	fmt.Printf("fileHeader.Header: %v\n", fileHeader.Header)
+
+	// tempFile, err := ioutil.TempFile("images", "upload-*.png")
+	contentType := fileHeader.Header["Content-Type"][0]
+	fmt.Println("Content Type:", contentType)
+	var osFile *os.File
+	// func TempFile(dir, pattern string) (f *os.File, err error)
+	if contentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" {
+		osFile, err = ioutil.TempFile("temp-xlsx", "*.xlsx")
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	// func ReadAll(r io.Reader) ([]byte, error)
+	fileBytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		fmt.Println(err)
+	}
+	// func (f *File) Write(b []byte) (n int, err error)
+
+	osFile.Write(fileBytes)
+	exec.Command("zacks_requests.exe").Run()
+
+	downloadBytes, err := ioutil.ReadFile("analysis.txt")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	mime := http.DetectContentType(downloadBytes)
+	fileSize := len(string(downloadBytes))
+
+	// Generate the server headers
+	w.Header().Set("Content-Type", mime)
+	w.Header().Set("Content-Disposition", "attachment; filename=analysis.txt")
+	w.Header().Set("Expires", "0")
+	w.Header().Set("Content-Transfer-Encoding", "binary")
+	w.Header().Set("Content-Length", strconv.Itoa(fileSize))
+	w.Header().Set("Content-Control", "private, no-transform, no-store, must-revalidate")
+
+	http.ServeContent(w, r, "analysis.txt", time.Now(), bytes.NewReader(downloadBytes))
+
+	file.Close()
+	osFile.Close()
+	defer os.Remove("analysis.txt")
+	defer os.Remove(osFile.Name())
 }
