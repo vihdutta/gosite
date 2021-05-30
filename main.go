@@ -63,9 +63,6 @@ func statistics(w http.ResponseWriter, r *http.Request) {
 }
 
 func webapps(w http.ResponseWriter, r *http.Request) {
-	dir, _ := os.Getwd()
-	fmt.Println(dir + "/")
-
 	if r.Method == "GET" {
 		templates := template.Must(template.ParseFiles("templates/webapps.html"))
 		if err := templates.ExecuteTemplate(w, "webapps.html", nil); err != nil {
@@ -93,12 +90,12 @@ func webapps(w http.ResponseWriter, r *http.Request) {
 	var osFile *os.File
 	// func TempFile(dir, pattern string) (f *os.File, err error)
 	if contentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" {
-		osFile, err = ioutil.TempFile(dir+"/"+"temp-xlsx", "*.xlsx")
+		osFile, err = ioutil.TempFile("temp-xlsx", "*.xlsx")
 		if err != nil {
 			fmt.Println(err)
 		}
 	}
-	fmt.Println(dir + "/" + "temp-xlsx")
+
 	// func ReadAll(r io.Reader) ([]byte, error)
 	fileBytes, err := ioutil.ReadAll(file)
 	if err != nil {
@@ -107,11 +104,11 @@ func webapps(w http.ResponseWriter, r *http.Request) {
 	// func (f *File) Write(b []byte) (n int, err error)
 
 	osFile.Write(fileBytes)
-	exec.Command(dir + "/" + "zacks_requests.exe").Run()
+	exec.Command("zacks_requests.exe").Run()
 
-	fmt.Println(dir + "/" + "analysis.txt")
+	fmt.Println("analysis.txt")
 
-	downloadBytes, err := ioutil.ReadFile(dir + "/" + "analysis.txt")
+	downloadBytes, err := ioutil.ReadFile("analysis.txt")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -127,7 +124,7 @@ func webapps(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Length", strconv.Itoa(fileSize))
 	w.Header().Set("Content-Control", "private, no-transform, no-store, must-revalidate")
 
-	http.ServeContent(w, r, dir+"/"+"analysis.txt", time.Now(), bytes.NewReader(downloadBytes))
+	http.ServeContent(w, r, "analysis.txt", time.Now(), bytes.NewReader(downloadBytes))
 
 	//file.Close()
 	//osFile.Close()
