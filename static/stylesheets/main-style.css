@@ -9,10 +9,6 @@
 	--sixth-color: white;
 }
 
-/* 
-	#E4E2E2;
-*/
-
 * {
 	box-sizing: border-box;
 	padding: 0;
@@ -211,6 +207,12 @@ p {
 
 .footer a {
 	color: var(--sixth-color);
+}
+
+.stats-svgs {
+	align-items: center;
+	justify-items: center;
+	grid-template-columns: repeat(2, 1fr);	
 }
 
 .cgrid-2 {

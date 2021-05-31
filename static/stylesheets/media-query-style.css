@@ -1,4 +1,12 @@
 /* Tablets and Under*/
+@media(max-width: 1100px) {
+    .stats-svgs {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+    	align-items: end;
+    }
+}
+
 @media(max-width: 768px) {
     .container {
         text-align: center;

@@ -1,75 +1,96 @@
 <!DOCTYPE html>
 
 <html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="description" content="Hello, I'm Vihaan Dutta. This is who I am.">
-      <meta name="author" content="Vihaan Dutta">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
-      <link rel="stylesheet" href="/static/stylesheets/main-style.css">
-      <link rel="stylesheet" href="/static/stylesheets/media-query-style.css" />
-      <title>Statistics</title>
-   </head>
-   <body>
-      <!-- Navbar -->
-      <div class="navbar">
-         <div class="container flex">
-            <h1 class="logo">Statistics</h1>
-            <nav>
-               <ul>
-                  <li><a href="/">Home</a></li>
-                  <li><a href="/projects">Projects</a></li>
-                  <li><a href="/statistics">Statistics</a></li>
-                  <li><a href="/webapps">Web Apps</a></li>
-               </ul>
-            </nav>
-         </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Hello, I'm Vihaan Dutta. This is who I am."
+    />
+    <meta name="author" content="Vihaan Dutta" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/static/stylesheets/main-style.css" />
+    <link rel="stylesheet" href="/static/stylesheets/media-query-style.css" />
+    <title>Statistics</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="container flex">
+        <h1 class="logo">Statistics</h1>
+        <nav>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/statistics">Statistics</a></li>
+            <li><a href="/webapps">Web Apps</a></li>
+          </ul>
+        </nav>
       </div>
+    </div>
 
-      <!-- Showcase -->
-      <section class="showcase">
-        <div class="container grid">
-            <div class="showcase-text">
-              <h1>My Infographics</h1>
-              <p>
-                Just below, you will be able to see what languages I use,
-                how much of each, my top Github projects, how many lines
-                of code I have on Github, and much more. If you want to
-                see the details of my projects, visit the <a href="/projects">
-                projects page.</a>
-              </p>
-            </div>
+    <!-- Showcase -->
+    <section class="showcase">
+      <div class="container grid">
+        <div class="showcase-text">
+          <h1>My Infographics</h1>
+          <p>
+            Just below, you will be able to see what languages I use, how much
+            of each, my top Github projects, how many lines of code I have on
+            Github, and much more. If you want to see the details of my
+            projects, visit the <a href="/projects"> projects page.</a>
+          </p>
         </div>
+      </div>
     </section>
     <!-- Content: SVGs-->
     <section class="welcome">
-    <div class="container grid cgrid-2">
-      <img width="500" src="https://github.com/vihdutta/vihdutta-stats/blob/master/generated/overview.svg?raw=true" alt="stats">
-      <img width="500" src="https://github.com/vihdutta/vihdutta-stats/blob/master/generated/languages.svg?raw=true" alt="stats">
-   </div>
-   </section>
-   <!-- Footer -->
-   <footer class="footer">
-      <div class="container grid cgrid-3">
-         <div>
-            <h1>Vihaan</h1>
-            <p>Copyright &copy; 2021</p>
-         </div>
-         <nav>
-            <ul>
-               <li><a href="/">Home</a></li>
-               <li><a href="/projects">Projects</a></li>
-               <li><a href="/statistics">Statistics</a></li>
-               <li><a href="/webapps">Web Apps</a></li>
-            </ul>
-         </nav>
-         <div class="social">
-            <a href="https://github.com/vihdutta" target="_blank"><i class="fab fa-github fa-2x"></i></a>
-            <a href="twitter" target="_blank"><i class="fab fa-discord fa-2x"></i></a>
-            <a href="https://www.instagram.com/vihaan_dutta/" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
-         </div>
+      <div class="container grid stats-svgs">
+        <img
+          width="500"
+          src="https://github.com/vihdutta/vihdutta-stats/blob/master/generated/overview.svg?raw=true"
+          alt="stats"
+        />
+        <img
+          width="500"
+          src="https://github.com/vihdutta/vihdutta-stats/blob/master/generated/languages.svg?raw=true"
+          alt="stats"
+        />
       </div>
-   </footer>
-   </body>
+    </section>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container grid cgrid-3">
+        <div>
+          <h1>Vihaan</h1>
+          <p>Copyright &copy; 2021</p>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/statistics">Statistics</a></li>
+            <li><a href="/webapps">Web Apps</a></li>
+          </ul>
+        </nav>
+        <div class="social">
+          <a href="https://github.com/vihdutta" target="_blank"
+            ><i class="fab fa-github fa-2x"></i
+          ></a>
+          <a href="https://discord.com/brand-new" target="_blank"
+            ><i class="fab fa-discord fa-2x"></i
+          ></a>
+          <a href="https://www.instagram.com/vihaan_dutta/" target="_blank"
+            ><i class="fab fa-instagram fa-2x"></i
+          ></a>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>

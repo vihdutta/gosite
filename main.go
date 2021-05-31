@@ -17,7 +17,7 @@ import (
 type M map[string]interface{}
 
 func main() {
-	modules.ProjectsGen()
+	//modules.ProjectsGen()
 	//Use this to test. REMOVE/COMMENT before pushing to Github or Heroku won't work.
 	//os.Setenv("PORT", "6969")
 
@@ -63,6 +63,7 @@ func statistics(w http.ResponseWriter, r *http.Request) {
 }
 
 func webapps(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Entered webapps")
 	if r.Method == "GET" {
 		templates := template.Must(template.ParseFiles("templates/webapps.html"))
 		if err := templates.ExecuteTemplate(w, "webapps.html", nil); err != nil {
@@ -70,11 +71,13 @@ func webapps(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	fmt.Println("webapps")
 
+	fmt.Println("Parsing Multipart Form")
 	r.ParseMultipartForm(10)
-	// func (r *Request) FormFile(key string) (multipart.File, *multipart.FileHeader, error)
-	file, fileHeader, err := r.FormFile("myFile")
+
+	fmt.Println("Reading uploaded file's basic data")
+	file, fileHeader, err := r.FormFile("myFile") //reads uploaded file's basic data
+	contentType := fileHeader.Header["Content-Type"][0]
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -83,35 +86,35 @@ func webapps(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("fileHeader.Filename: %v\n", fileHeader.Filename)
 	fmt.Printf("fileHeader.Size: %v\n", fileHeader.Size)
 	fmt.Printf("fileHeader.Header: %v\n", fileHeader.Header)
-
-	// tempFile, err := ioutil.TempFile("images", "upload-*.png")
-	contentType := fileHeader.Header["Content-Type"][0]
 	fmt.Println("Content Type:", contentType)
+
 	var osFile *os.File
-	// func TempFile(dir, pattern string) (f *os.File, err error)
+
 	if contentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" {
-		osFile, err = ioutil.TempFile("temp-xlsx", "*.xlsx")
+		osFile, err = ioutil.TempFile("temp-xlsx", "*.xlsx") //creates empty file with .xlsx extension
 		if err != nil {
 			fmt.Println(err)
 		}
 	}
+	fmt.Println("Created TempFile")
 
-	// func ReadAll(r io.Reader) ([]byte, error)
-	fileBytes, err := ioutil.ReadAll(file)
+	fileBytes, err := ioutil.ReadAll(file) //reads uploaded file's byte data
 	if err != nil {
 		fmt.Println(err)
 	}
-	// func (f *File) Write(b []byte) (n int, err error)
+	fmt.Println("Reading uploaded file's byte data")
 
-	osFile.Write(fileBytes)
+	osFile.Write(fileBytes) //copies file data to the temp-file
+	fmt.Println("Copied uploaded file's data")
+
 	exec.Command("zacks_requests.exe").Run()
-
-	fmt.Println("analysis.txt")
+	fmt.Println("Running Zacks Requests")
 
 	downloadBytes, err := ioutil.ReadFile("analysis.txt")
 	if err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println("Reading analysis.txt")
 
 	mime := http.DetectContentType(downloadBytes)
 	fileSize := len(string(downloadBytes))
@@ -125,9 +128,10 @@ func webapps(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Control", "private, no-transform, no-store, must-revalidate")
 
 	http.ServeContent(w, r, "analysis.txt", time.Now(), bytes.NewReader(downloadBytes))
+	fmt.Println("Downloaded file")
 
-	//file.Close()
-	//osFile.Close()
-	//defer os.Remove("analysis.txt")
-	//defer os.Remove(osFile.Name())
+	file.Close()
+	osFile.Close()
+	defer os.Remove("analysis.txt")
+	defer os.Remove(osFile.Name())
 }
