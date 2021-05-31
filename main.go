@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
-	"os/exec"
 	"strconv"
 	"time"
 
@@ -76,45 +75,45 @@ func webapps(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(10)
 
 	fmt.Println("Reading uploaded file's basic data")
-	file, fileHeader, err := r.FormFile("myFile") //reads uploaded file's basic data
-	contentType := fileHeader.Header["Content-Type"][0]
+	formFile, formFileHeader, err := r.FormFile("myFile") //reads uploaded file's basic data
+	contentType := formFileHeader.Header["Content-Type"][0]
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Printf("fileHeader.Filename: %v\n", fileHeader.Filename)
-	fmt.Printf("fileHeader.Size: %v\n", fileHeader.Size)
-	fmt.Printf("fileHeader.Header: %v\n", fileHeader.Header)
+	fmt.Printf("formFileHeader.Filename: %v\n", formFileHeader.Filename)
+	fmt.Printf("formFileHeader.Size: %v\n", formFileHeader.Size)
+	fmt.Printf("formFileHeader.Header: %v\n", formFileHeader.Header)
 	fmt.Println("Content Type:", contentType)
 
-	var osFile *os.File
+	var tempFile *os.File
 
+	fmt.Println("Creating TempFile")
 	if contentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" {
-		osFile, err = ioutil.TempFile("temp-xlsx", "*.xlsx") //creates empty file with .xlsx extension
+		tempFile, err = ioutil.TempFile("temp-xlsx", "*.xlsx") //creates empty file with .xlsx extension
 		if err != nil {
 			fmt.Println(err)
 		}
 	}
-	fmt.Println("Created TempFile")
 
-	fileBytes, err := ioutil.ReadAll(file) //reads uploaded file's byte data
+	fmt.Println("Reading uploaded file's byte data")
+	fileBytes, err := ioutil.ReadAll(formFile) //reads uploaded file's byte data
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("Reading uploaded file's byte data")
 
-	osFile.Write(fileBytes) //copies file data to the temp-file
-	fmt.Println("Copied uploaded file's data")
+	fmt.Println("Copying uploaded file's byte data to tempFile")
+	tempFile.Write(fileBytes) //copies file data to the temp-file
 
-	exec.Command("zacks_requests.exe").Run()
 	fmt.Println("Running Zacks Requests")
+	modules.ZacksRequests(tempFile.Name())
 
+	fmt.Println("Reading analysis.txt")
 	downloadBytes, err := ioutil.ReadFile("analysis.txt")
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("Reading analysis.txt")
 
 	mime := http.DetectContentType(downloadBytes)
 	fileSize := len(string(downloadBytes))
@@ -127,11 +126,11 @@ func webapps(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Length", strconv.Itoa(fileSize))
 	w.Header().Set("Content-Control", "private, no-transform, no-store, must-revalidate")
 
+	fmt.Println("Downloading file")
 	http.ServeContent(w, r, "analysis.txt", time.Now(), bytes.NewReader(downloadBytes))
-	fmt.Println("Downloaded file")
 
-	file.Close()
-	osFile.Close()
+	formFile.Close()
+	tempFile.Close()
 	defer os.Remove("analysis.txt")
-	defer os.Remove(osFile.Name())
+	defer os.Remove(tempFile.Name())
 }
