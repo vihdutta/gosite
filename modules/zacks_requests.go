@@ -10,10 +10,10 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-var stocks []string
-var stockValues []string
-
 func ZacksRequests(tempFile string) {
+	var stocks []string
+	var stockValues []string
+
 	f, err := excelize.OpenFile(tempFile)
 	if err != nil {
 		fmt.Println(err)
@@ -36,7 +36,11 @@ func ZacksRequests(tempFile string) {
 	for _, stock := range stocks {
 		url := "https://www.zacks.com/stock/quote/" + stock + "?q=" + stock
 
-		r, err := http.Get(url)
+		c := &http.Client{}
+		nr, err := http.NewRequest("GET", url, nil)
+		nr.Header.Set("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
+		r, _ := c.Do(nr)
+		//r, err := http.Get(url)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -50,6 +54,7 @@ func ZacksRequests(tempFile string) {
 			stockValue := strings.TrimSpace(strings.Split(s.Text(), "of")[0])
 			statement := stock + ": " + stockValue
 			stockValues = append(stockValues, statement)
+			fmt.Println(statement)
 		})
 	}
 
@@ -58,11 +63,11 @@ func ZacksRequests(tempFile string) {
 		fmt.Println(err)
 	}
 
-	defer analysisFile.Close()
-
 	for _, statement := range stockValues {
 		if _, err = analysisFile.WriteString(statement + "\n"); err != nil {
 			fmt.Println(err)
 		}
 	}
+
+	defer analysisFile.Close()
 }

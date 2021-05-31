@@ -119,6 +119,7 @@ func webapps(w http.ResponseWriter, r *http.Request) {
 	fileSize := len(string(downloadBytes))
 
 	// Generate the server headers
+	fmt.Println("Setting headers")
 	w.Header().Set("Content-Type", mime)
 	w.Header().Set("Content-Disposition", "attachment; filename=analysis.txt")
 	w.Header().Set("Expires", "0")
