@@ -13,6 +13,7 @@ import (
 func ZacksRequests(tempFile string) {
 	var stocks []string
 	var stockValues []string
+	var unfoundItems []string
 
 	f, err := excelize.OpenFile(tempFile)
 	if err != nil {
@@ -34,6 +35,8 @@ func ZacksRequests(tempFile string) {
 	}
 
 	for _, stock := range stocks {
+		found := false
+
 		url := "https://www.zacks.com/stock/quote/" + stock + "?q=" + stock
 
 		c := &http.Client{}
@@ -54,8 +57,19 @@ func ZacksRequests(tempFile string) {
 			stockValue := strings.TrimSpace(strings.Split(s.Text(), "of")[0])
 			statement := stock + ": " + stockValue
 			stockValues = append(stockValues, statement)
-			fmt.Println(statement)
+			found = true
 		})
+
+		rdoc.Find("#quote_ribbon > div > div.zr_rankbox > div").Each(func(i int, s *goquery.Selection) {
+			stockValue := strings.TrimSpace(strings.Split(strings.Split(s.Text(), "of")[1], "ETFs")[1])
+			statement := stock + ": " + stockValue
+			stockValues = append(stockValues, statement)
+			found = true
+		})
+
+		if !found {
+			unfoundItems = append(unfoundItems, stock)
+		}
 	}
 
 	analysisFile, err := os.OpenFile("analysis.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
@@ -68,6 +82,8 @@ func ZacksRequests(tempFile string) {
 			fmt.Println(err)
 		}
 	}
+
+	analysisFile.WriteString(fmt.Sprintf("Unfound items: %s", strings.Join(unfoundItems, ", ")))
 
 	defer analysisFile.Close()
 }

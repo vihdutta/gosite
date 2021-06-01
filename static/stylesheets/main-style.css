@@ -21,6 +21,11 @@ body {
 	line-height: 1.5;
 }
 
+form {
+	height: 500px;
+	background-color: var(--fourth-color);
+}
+
 ul {
 	list-style-type: none;
 }
@@ -235,4 +240,8 @@ p {
 .quotetext {
 	padding-top: 150px;
 	text-align: center;
+}
+
+.pad {
+	padding-top: 100px;
 }

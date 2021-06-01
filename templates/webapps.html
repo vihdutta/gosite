@@ -1,13 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+<!DOCTYPE html>
+
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Hello, I'm Vihaan Dutta. This is who I am."
+    />
+    <meta name="author" content="Vihaan Dutta" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/static/stylesheets/main-style.css" />
+    <link rel="stylesheet" href="/static/stylesheets/media-query-style.css" />
     <title>File Upload</title>
   </head>
   <body>
-    <h1>File Upload Page</h1>
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="container flex">
+        <h1 class="logo">Webapps</h1>
+        <nav>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/statistics">Statistics</a></li>
+            <li><a href="/webapps">Webapps</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  <body>
+    <!-- Showcase -->
+    <section class="showcase">
+      <div class="container grid">
+        <div class="showcase-text">
+          <h1>Webapps</h1>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore fuga commodi doloribus nesciunt sequi quae necessitatibus eos dolores at, tenetur natus numquam ad velit quos?
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- Form -->
+    <div class="container pad">
+      <h1>Vetting Requests</h1>
     <form enctype="multipart/form-data" action="/webapps" method="post">
       <input type="file" name="myFile" />
       <input type="submit" value="submit" />
     </form>
+  </div>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container grid cgrid-3">
+        <div>
+          <h1>Vihaan</h1>
+          <p>Copyright &copy; 2021</p>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/statistics">Statistics</a></li>
+            <li><a href="/webapps">Webapps</a></li>
+          </ul>
+        </nav>
+        <div class="social">
+          <a href="https://github.com/vihdutta" target="_blank"
+            ><i class="fab fa-github fa-2x"></i
+          ></a>
+          <a href="https://discord.com/brand-new" target="_blank"
+            ><i class="fab fa-discord fa-2x"></i
+          ></a>
+          <a href="https://www.instagram.com/vihaan_dutta/" target="_blank"
+            ><i class="fab fa-instagram fa-2x"></i
+          ></a>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

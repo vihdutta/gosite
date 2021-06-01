@@ -107,7 +107,9 @@ func webapps(w http.ResponseWriter, r *http.Request) {
 	tempFile.Write(fileBytes) //copies file data to the temp-file
 
 	fmt.Println("Running Zacks Requests")
+	start := time.Now()
 	modules.ZacksRequests(tempFile.Name())
+	fmt.Println(time.Since(start))
 
 	fmt.Println("Reading analysis.txt")
 	downloadBytes, err := ioutil.ReadFile("analysis.txt")
