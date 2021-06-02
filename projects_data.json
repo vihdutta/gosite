@@ -26,7 +26,7 @@
   "html_url": "https://github.com/vihdutta/vihdutta-heroku",
   "description": "My website. Heroku gets files from this page and automatically deploys a new build.",
   "commits_url": "https://api.github.com/repos/vihdutta/vihdutta-heroku/commits{/sha}",
-  "size": 57174,
+  "size": 57190,
   "stargazers_count": 0,
   "license": {
    "name": ""

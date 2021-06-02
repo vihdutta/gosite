@@ -27,7 +27,7 @@ func main() {
 	http.HandleFunc("/projects", projects)
 	http.HandleFunc("/statistics", statistics)
 	http.HandleFunc("/webapps", webapps)
-	http.Handle("/analysis.txt", http.FileServer(http.Dir("./")))
+	http.Handle("/*.txt", http.FileServer(http.Dir("./")))
 
 	fmt.Println("Listening on :" + port)
 	http.ListenAndServe(":"+port, nil)
@@ -108,11 +108,11 @@ func webapps(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("Running Zacks Requests")
 	start := time.Now()
-	modules.ZacksRequests(tempFile.Name())
+	modules.ZacksRequests(tempFile.Name(), formFileHeader.Filename)
 	fmt.Println(time.Since(start))
 
-	fmt.Println("Reading analysis.txt")
-	downloadBytes, err := ioutil.ReadFile("analysis.txt")
+	fmt.Println("Reading " + formFileHeader.Filename + ".txt")
+	downloadBytes, err := ioutil.ReadFile(formFileHeader.Filename + ".txt")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -123,17 +123,17 @@ func webapps(w http.ResponseWriter, r *http.Request) {
 	// Generate the server headers
 	fmt.Println("Setting headers")
 	w.Header().Set("Content-Type", mime)
-	w.Header().Set("Content-Disposition", "attachment; filename=analysis.txt")
+	w.Header().Set("Content-Disposition", "attachment; filename="+formFileHeader.Filename+".txt")
 	w.Header().Set("Expires", "0")
 	w.Header().Set("Content-Transfer-Encoding", "binary")
 	w.Header().Set("Content-Length", strconv.Itoa(fileSize))
 	w.Header().Set("Content-Control", "private, no-transform, no-store, must-revalidate")
 
 	fmt.Println("Downloading file")
-	http.ServeContent(w, r, "analysis.txt", time.Now(), bytes.NewReader(downloadBytes))
+	http.ServeContent(w, r, formFileHeader.Filename+".txt", time.Now(), bytes.NewReader(downloadBytes))
 
 	formFile.Close()
 	tempFile.Close()
-	defer os.Remove("analysis.txt")
+	defer os.Remove(formFileHeader.Filename + ".txt")
 	defer os.Remove(tempFile.Name())
 }
