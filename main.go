@@ -16,18 +16,18 @@ import (
 type M map[string]interface{}
 
 func main() {
-	//modules.ProjectsGen()
+	modules.ProjectsGen()
 	//Use this to test. REMOVE/COMMENT before pushing to Github or Heroku won't work.
 	//os.Setenv("PORT", "6969")
 
 	port := os.Getenv("PORT")
+
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	http.HandleFunc("/", index)
 	http.HandleFunc("/projects", projects)
 	http.HandleFunc("/statistics", statistics)
 	http.HandleFunc("/webapps", webapps)
-	http.Handle("/*.txt", http.FileServer(http.Dir("./")))
 
 	fmt.Println("Listening on :" + port)
 	http.ListenAndServe(":"+port, nil)

@@ -11,7 +11,7 @@ type ProjectsStruct struct {
 	Project     string  `json:"name"`
 	Url         string  `json:"html_url"`
 	Description string  `json:"description"`
-	Commits     string  `json:"commits_url"` /*just gets url*/
+	Commits     string  `json:"sha"`
 	Size        int32   `json:"size"`
 	Stars       int16   `json:"stargazers_count"`
 	LicenseData License `json:"license"`
@@ -22,7 +22,7 @@ type License struct {
 }
 
 func ProjectsGen() []ProjectsStruct {
-	req, err := http.Get("https://api.github.com/users/vihdutta/repos")
+	req, err := http.Get("https://api.github.com/users/vihdutta/repos?per_page=100")
 
 	if err != nil {
 		fmt.Print(err.Error())
@@ -35,7 +35,7 @@ func ProjectsGen() []ProjectsStruct {
 	json.Unmarshal(bodyBytes, &projectsdata)
 
 	file, _ := json.MarshalIndent(projectsdata, "", " ")
-	_ = ioutil.WriteFile("projects_data.json", file, 0644)
+	ioutil.WriteFile("static/json/projects_data.json", file, 0644)
 
 	return projectsdata
 

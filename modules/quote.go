@@ -2,6 +2,7 @@ package modules
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"os"
@@ -21,7 +22,12 @@ func main() {
 func QuoteGen() RandQuote {
 	rand.Seed(time.Now().Unix())
 
-	jsonFile, _ := os.Open("quotes.json")
+	jsonFile, err := os.Open("static/json/quotes.json")
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	bodyBytes, _ := ioutil.ReadAll(jsonFile)
 
 	var quotes []RandQuote

@@ -130,7 +130,7 @@ p {
 
 /* content */
 .content {
-	height: 700px;
+	height: 1250px;
 	background-color: var(--fifth-color);
 	color: var(--second-color);
 	position: relative;
